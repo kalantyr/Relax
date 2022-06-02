@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using Relax.Characters.Models;
+using Relax.Controllers;
+using Relax.Windows;
 
 namespace Relax.Controls
 {
     public partial class CharacterSelectorControl
     {
+        private readonly ICollection<CharacterInfo> _characters = new ObservableCollection<CharacterInfo>();
+        private readonly CharacterController _characterController;
+
         public CharacterSelectorControl()
         {
             InitializeComponent();
 
-            Context.Instance.AuthController.UserLoggedIn += AuthController_UserLoggedIn;
+            _characterController = Context.Instance.CharacterController;
+            _lb.ItemsSource = _characters;
 
+            Context.Instance.AuthController.UserLoggedIn += AuthController_UserLoggedIn;
             Unloaded += CharacterSelectorControl_Unloaded;
         }
 
@@ -29,15 +38,14 @@ namespace Relax.Controls
             try
             {
                 Cursor = Cursors.Wait;
-                _lb.ItemsSource = null;
-                var charIds = await Context.Instance.CharacterController.GetAllCharactersIdsAsync(tokenSource.Token);
-                var characters = new List<CharacterInfo>();
+                _characters.Clear();
+                var charIds = await _characterController.GetMyCharactersIdsAsync(tokenSource.Token);
                 foreach (var charId in charIds) // TODO: parallel
                 {
-                    var charInfo = await Context.Instance.CharacterController.GetCharacterInfoAsync(charId, tokenSource.Token);
-                    characters.Add(charInfo);
+                    var charInfo = await _characterController.GetCharacterInfoAsync(charId, tokenSource.Token);
+                    _characters.Add(charInfo);
                 }
-                _lb.ItemsSource = characters;
+                _lb.ItemsSource = _characters;
             }
             catch (Exception exception)
             {
@@ -46,6 +54,31 @@ namespace Relax.Controls
             finally
             {
                 Cursor = null;
+            }
+        }
+
+        private async void OnCreateClick(object sender, RoutedEventArgs e)
+        {
+            var window = new CreateCharacterWindow { Owner = Window.GetWindow(this) };
+            if (window.ShowDialog() == true)
+            {
+                var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+                try
+                {
+                    Cursor = Cursors.Wait;
+                    var charId = await _characterController.CreateAsync(window.CharacterInfo, tokenSource.Token);
+                    var charInfo = await _characterController.GetCharacterInfoAsync(charId, tokenSource.Token);
+                    _characters.Add(charInfo);
+                }
+                catch (Exception exception)
+                {
+                    App.ShowError(exception);
+                }
+                finally
+                {
+                    Cursor = null;
+                }
             }
         }
     }

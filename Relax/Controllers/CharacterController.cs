@@ -18,10 +18,10 @@ namespace Relax.Controllers
             _authController = authController ?? throw new ArgumentNullException(nameof(authController));
         }
 
-        public async Task<IReadOnlyCollection<uint>> GetAllCharactersIdsAsync(CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<uint>> GetMyCharactersIdsAsync(CancellationToken cancellationToken)
         {
             ICharactersReadonlyClient client = new CharactersClient(_httpClientFactory);
-            var result = await client.GetAllCharactersIdsAsync(_authController.TokenInfo.Value, cancellationToken);
+            var result = await client.GetMyCharactersIdsAsync(_authController.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             return result.Result;
@@ -31,6 +31,15 @@ namespace Relax.Controllers
         {
             ICharactersReadonlyClient client = new CharactersClient(_httpClientFactory);
             var result = await client.GetCharacterInfoAsync(charId, _authController.TokenInfo.Value, cancellationToken);
+            if (result.Error != null)
+                throw new Exception(result.Error.Message);
+            return result.Result;
+        }
+
+        public async Task<uint> CreateAsync(CharacterInfo info, CancellationToken cancellationToken)
+        {
+            ICharactersClient client = new CharactersClient(_httpClientFactory);
+            var result = await client.CreateAsync(info, _authController.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             return result.Result;
