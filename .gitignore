@@ -1,0 +1,9 @@
+/Relax/bin
+/Relax/obj
+/Relax.Interfaces/bin
+/Relax.Interfaces/obj
+/Relax.Utils/bin
+/Relax.Utils/obj
+/Relax/*.user
+/Relax/Properties/PublishProfiles/*.user
+/.vs
