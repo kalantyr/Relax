@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Relax.Characters.Models;
 
 namespace Relax.Windows
@@ -17,7 +16,7 @@ namespace Relax.Windows
         {
             CharacterInfo = new CharacterInfo
             {
-                Name = "Персик"
+                Name = _tbName.Text
             };
             DialogResult = true;
         }
