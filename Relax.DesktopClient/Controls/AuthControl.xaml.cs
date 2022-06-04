@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Relax.Controls
+namespace Relax.DesktopClient.Controls
 {
     public partial class AuthControl
     {

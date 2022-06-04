@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Relax.Windows
+namespace Relax.DesktopClient.Windows
 {
     public partial class StartWindow
     {

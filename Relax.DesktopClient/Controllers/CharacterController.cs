@@ -6,7 +6,7 @@ using Relax.Characters.Client;
 using Relax.Characters.Models;
 using Relax.Interfaces;
 
-namespace Relax.Controllers
+namespace Relax.DesktopClient.Controllers
 {
     internal class CharacterController: ICharacterController
     {

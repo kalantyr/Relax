@@ -7,3 +7,5 @@
 /Relax/*.user
 /Relax/Properties/PublishProfiles/*.user
 /.vs
+/Relax.DesktopClient/bin
+/Relax.DesktopClient/obj

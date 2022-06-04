@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
@@ -12,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kalantyr.Auth\Kalantyr.Auth.Client\Kalantyr.Auth.Client.csproj" />
+    <ProjectReference Include="..\..\..\Kalantyr.Auth\Kalantyr.Auth.Client\Kalantyr.Auth.Client.csproj" />
+    <ProjectReference Include="..\..\..\Kalantyr.Libs\Kalantyr.Web\Kalantyr.Web.csproj" />
     <ProjectReference Include="..\..\Relax.Characters\Relax.Characters.Client\Relax.Characters.Client.csproj" />
     <ProjectReference Include="..\Relax.Interfaces\Relax.Interfaces.csproj" />
     <ProjectReference Include="..\Relax.Utils\Relax.Utils.csproj" />
@@ -20,7 +20,10 @@
 
   <ItemGroup>
     <Reference Include="Kalantyr.Auth.Models">
-      <HintPath>..\..\Kalantyr.Auth\Kalantyr.Auth.Models\bin\Debug\net6.0\Kalantyr.Auth.Models.dll</HintPath>
+      <HintPath>..\..\..\Kalantyr.Auth\Kalantyr.Auth.Models\bin\Debug\net6.0\Kalantyr.Auth.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Relax.Characters.Models">
+      <HintPath>..\..\Relax.Characters\Relax.Characters.Models\bin\Debug\net6.0\Relax.Characters.Models.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Relax.Characters.Models;
 
-namespace Relax.Windows
+namespace Relax.DesktopClient.Windows
 {
     public partial class CreateCharacterWindow
     {

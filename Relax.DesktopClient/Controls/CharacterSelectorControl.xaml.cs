@@ -5,10 +5,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Relax.Characters.Models;
-using Relax.Controllers;
-using Relax.Windows;
+using Relax.DesktopClient.Controllers;
+using Relax.DesktopClient.Windows;
 
-namespace Relax.Controls
+namespace Relax.DesktopClient.Controls
 {
     public partial class CharacterSelectorControl
     {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace Relax
+namespace Relax.DesktopClient
 {
     public partial class App
     {

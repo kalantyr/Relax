@@ -1,14 +1,14 @@
-﻿<Window x:Class="Relax.Windows.StartWindow"
+﻿<Window x:Class="Relax.DesktopClient.Windows.StartWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Relax.Controls"
+        xmlns:controls1="clr-namespace:Relax.DesktopClient.Controls"
         Title="Relax" Height="300" Width="250" WindowStartupLocation="CenterScreen">
     <StackPanel VerticalAlignment="Center">
         <GroupBox Header="Пользователь" HorizontalAlignment="Center">
-            <controls:AuthControl/>
+            <controls1:AuthControl/>
         </GroupBox>
         <GroupBox Header="Персонажи" x:Name="_charactersGroup" HorizontalAlignment="Center">
-            <controls:CharacterSelectorControl/>
+            <controls1:CharacterSelectorControl/>
         </GroupBox>
     </StackPanel>
 </Window>

@@ -1,6 +1,6 @@
-﻿using Relax.Controllers;
+﻿using Relax.DesktopClient.Controllers;
 
-namespace Relax
+namespace Relax.DesktopClient
 {
     internal class Context
     {

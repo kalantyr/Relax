@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Relax.Controls.AuthControl"
+﻿<UserControl x:Class="Relax.DesktopClient.Controls.AuthControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
