@@ -30,7 +30,7 @@ namespace Relax.DesktopClient.Controls
 
         private async void OnLoginClick(object sender, RoutedEventArgs e)
         {
-            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
 
             try
             {
@@ -49,7 +49,7 @@ namespace Relax.DesktopClient.Controls
 
         private async void OnLogoutClick(object sender, RoutedEventArgs e)
         {
-            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
 
             try
             {

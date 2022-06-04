@@ -15,6 +15,10 @@ namespace Relax.DesktopClient.Controls
         private readonly ICollection<CharacterInfo> _characters = new ObservableCollection<CharacterInfo>();
         private readonly CharacterController _characterController;
 
+        public CharacterInfo SelectedCharacter => _lb.SelectedItem as CharacterInfo;
+
+        public event Action<CharacterInfo> Selected;
+
         public CharacterSelectorControl()
         {
             InitializeComponent();
@@ -26,14 +30,14 @@ namespace Relax.DesktopClient.Controls
             Unloaded += CharacterSelectorControl_Unloaded;
         }
 
-        private void CharacterSelectorControl_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        private void CharacterSelectorControl_Unloaded(object sender, RoutedEventArgs e)
         {
             Context.Instance.AuthController.UserLoggedIn -= AuthController_UserLoggedIn;
         }
 
         private async void AuthController_UserLoggedIn()
         {
-            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
 
             try
             {
@@ -62,7 +66,7 @@ namespace Relax.DesktopClient.Controls
             var window = new CreateCharacterWindow { Owner = Window.GetWindow(this) };
             if (window.ShowDialog() == true)
             {
-                var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
 
                 try
                 {
@@ -80,6 +84,18 @@ namespace Relax.DesktopClient.Controls
                     Cursor = null;
                 }
             }
+        }
+
+        private void OnSelectClick(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCharacter != null)
+                Selected?.Invoke(SelectedCharacter);
+        }
+
+        private void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedCharacter != null)
+                OnSelectClick(sender, e);
         }
     }
 }

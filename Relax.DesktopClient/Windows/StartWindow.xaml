@@ -8,7 +8,7 @@
             <controls1:AuthControl/>
         </GroupBox>
         <GroupBox Header="Персонажи" x:Name="_charactersGroup" HorizontalAlignment="Center">
-            <controls1:CharacterSelectorControl/>
+            <controls1:CharacterSelectorControl x:Name="_characterSelector"/>
         </GroupBox>
     </StackPanel>
 </Window>

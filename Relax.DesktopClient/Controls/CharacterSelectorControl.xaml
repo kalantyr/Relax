@@ -5,8 +5,9 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="_lb">
+        <ListBox x:Name="_lb" MouseDoubleClick="OnMouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
@@ -14,5 +15,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Content="Создать..." Grid.Row="1" Click="OnCreateClick"/>
+        <Button Content="Выбрать" Grid.Row="2" Click="OnSelectClick"/>
     </Grid>
 </UserControl>

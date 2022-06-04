@@ -12,6 +12,11 @@ namespace Relax.DesktopClient.Windows
             Context.Instance.AuthController.UserLoggedIn += TuneControls;
             Context.Instance.AuthController.UserLoggedOut += TuneControls;
 
+            _characterSelector.Selected += characterInfo =>
+            {
+                new GameWindow(characterInfo) { Owner = this }.ShowDialog();
+            };
+
             TuneControls();
         }
 

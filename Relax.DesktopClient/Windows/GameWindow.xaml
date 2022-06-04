@@ -1,0 +1,10 @@
+﻿<Window x:Class="Relax.DesktopClient.Windows.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Relax.Controls"
+        Background="Black"
+        Title="Relax" Height="450" Width="800" ShowInTaskbar="False">
+    <Grid>
+        <controls:LocationControl/>
+    </Grid>
+</Window>

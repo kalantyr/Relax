@@ -1,12 +1,15 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Relax" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Relax.DesktopClient" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="AuthService" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://WIN-QNU9TO285O8/auth</Value>
     </Setting>
     <Setting Name="CharactersService" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost:5203</Value>
+      <Value Profile="(Default)">http://WIN-QNU9TO285O8/characters</Value>
+    </Setting>
+    <Setting Name="AsyncTimeout" Type="System.TimeSpan" Scope="Application">
+      <Value Profile="(Default)">00:00:10</Value>
     </Setting>
   </Settings>
 </SettingsFile>

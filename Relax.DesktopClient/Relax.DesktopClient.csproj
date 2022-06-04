@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\..\Kalantyr.Auth\Kalantyr.Auth.Client\Kalantyr.Auth.Client.csproj" />
     <ProjectReference Include="..\..\..\Kalantyr.Libs\Kalantyr.Web\Kalantyr.Web.csproj" />
     <ProjectReference Include="..\..\Relax.Characters\Relax.Characters.Client\Relax.Characters.Client.csproj" />
+    <ProjectReference Include="..\..\Relax.Server\Relax.Server.Client\Relax.Server.Client.csproj" />
     <ProjectReference Include="..\Relax.Interfaces\Relax.DesktopClient.Interfaces.csproj" />
     <ProjectReference Include="..\Relax.Utils\Relax.Utils.csproj" />
   </ItemGroup>

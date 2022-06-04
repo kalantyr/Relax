@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Relax {
+namespace Relax.DesktopClient {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -34,10 +34,19 @@ namespace Relax {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5203")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://WIN-QNU9TO285O8/characters")]
         public string CharactersService {
             get {
                 return ((string)(this["CharactersService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:10")]
+        public global::System.TimeSpan AsyncTimeout {
+            get {
+                return ((global::System.TimeSpan)(this["AsyncTimeout"]));
             }
         }
     }
