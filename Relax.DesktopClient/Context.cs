@@ -1,12 +1,13 @@
 ﻿using Relax.DesktopClient.Controllers;
+using Relax.DesktopClient.Interfaces;
 
 namespace Relax.DesktopClient
 {
-    internal class Context
+    internal class Context: IDesktopContext
     {
         private static readonly Context _instance = new();
 
-        public static Context Instance => _instance;
+        internal static Context Instance => _instance;
 
         private Context()
         {
@@ -15,6 +16,10 @@ namespace Relax.DesktopClient
 
         public AuthController AuthController { get; } = new(UserSettings.Instance);
 
+        IAuthController IDesktopContext.AuthController => AuthController;
+
         public CharacterController CharacterController { get; }
+
+        ICharacterController IDesktopContext.CharacterController => CharacterController;
     }
 }

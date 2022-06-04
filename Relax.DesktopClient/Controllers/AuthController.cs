@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kalantyr.Auth.Client;
 using Kalantyr.Auth.Models;
-using Relax.Interfaces;
+using Relax.DesktopClient.Interfaces;
 using Relax.Utils;
 
 namespace Relax.DesktopClient.Controllers

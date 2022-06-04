@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Relax.Characters.Client;
 using Relax.Characters.Models;
-using Relax.Interfaces;
+using Relax.DesktopClient.Interfaces;
 
 namespace Relax.DesktopClient.Controllers
 {
