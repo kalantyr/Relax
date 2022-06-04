@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using Relax.Characters.Models;
 
@@ -23,14 +24,15 @@ namespace Relax.DesktopClient.Windows
             Loaded += GameWindow_Loaded;
         }
 
-        private async void GameWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private async void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
 
             try
             {
                 Cursor = Cursors.Wait;
-                await Context.Instance.CharacterController.EnterAsync(_heroInfo, tokenSource.Token);
+                await _context.CharactersService.EnterAsync(_heroInfo, tokenSource.Token);
+                _locationControl.Visibility = Visibility.Visible;
             }
             catch (Exception exception)
             {
@@ -44,8 +46,10 @@ namespace Relax.DesktopClient.Windows
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            var cancellationTokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
-            _context.CharacterController.ExitAsync(cancellationTokenSource.Token).Wait(cancellationTokenSource.Token);
+            _locationControl.Visibility = Visibility.Collapsed;
+
+            var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
+            _context.CharactersService.ExitAsync(tokenSource.Token).Wait(tokenSource.Token);
 
             base.OnClosing(e);
         }

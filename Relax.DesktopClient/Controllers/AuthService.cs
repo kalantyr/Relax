@@ -9,13 +9,13 @@ using Relax.Utils;
 
 namespace Relax.DesktopClient.Controllers
 {
-    internal class AuthController: IAuthController
+    internal class AuthService: IAuthService
     {
         private readonly UserSettings _userSettings;
 
         public TokenInfo TokenInfo { get; private set; }
 
-        public AuthController(UserSettings userSettings)
+        public AuthService(UserSettings userSettings)
         {
             _userSettings = userSettings ?? throw new ArgumentNullException(nameof(userSettings));
         }

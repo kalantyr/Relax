@@ -13,7 +13,7 @@ namespace Relax.DesktopClient.Controls
     public partial class CharacterSelectorControl
     {
         private readonly ICollection<CharacterInfo> _characters = new ObservableCollection<CharacterInfo>();
-        private readonly CharacterController _characterController;
+        private readonly CharactersService _charactersService;
 
         public CharacterInfo SelectedCharacter => _lb.SelectedItem as CharacterInfo;
 
@@ -23,16 +23,16 @@ namespace Relax.DesktopClient.Controls
         {
             InitializeComponent();
 
-            _characterController = Context.Instance.CharacterController;
+            _charactersService = Context.Instance.CharactersService;
             _lb.ItemsSource = _characters;
 
-            Context.Instance.AuthController.UserLoggedIn += AuthController_UserLoggedIn;
+            Context.Instance.AuthService.UserLoggedIn += AuthController_UserLoggedIn;
             Unloaded += CharacterSelectorControl_Unloaded;
         }
 
         private void CharacterSelectorControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Context.Instance.AuthController.UserLoggedIn -= AuthController_UserLoggedIn;
+            Context.Instance.AuthService.UserLoggedIn -= AuthController_UserLoggedIn;
         }
 
         private async void AuthController_UserLoggedIn()
@@ -43,10 +43,10 @@ namespace Relax.DesktopClient.Controls
             {
                 Cursor = Cursors.Wait;
                 _characters.Clear();
-                var charIds = await _characterController.GetMyCharactersIdsAsync(tokenSource.Token);
+                var charIds = await _charactersService.GetMyCharactersIdsAsync(tokenSource.Token);
                 foreach (var charId in charIds) // TODO: parallel
                 {
-                    var charInfo = await _characterController.GetCharacterInfoAsync(charId, tokenSource.Token);
+                    var charInfo = await _charactersService.GetCharacterInfoAsync(charId, tokenSource.Token);
                     _characters.Add(charInfo);
                 }
                 _lb.ItemsSource = _characters;
@@ -71,8 +71,8 @@ namespace Relax.DesktopClient.Controls
                 try
                 {
                     Cursor = Cursors.Wait;
-                    var charId = await _characterController.CreateAsync(window.CharacterInfo, tokenSource.Token);
-                    var charInfo = await _characterController.GetCharacterInfoAsync(charId, tokenSource.Token);
+                    var charId = await _charactersService.CreateAsync(window.CharacterInfo, tokenSource.Token);
+                    var charInfo = await _charactersService.GetCharacterInfoAsync(charId, tokenSource.Token);
                     _characters.Add(charInfo);
                 }
                 catch (Exception exception)

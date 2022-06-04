@@ -1,6 +1,6 @@
 ﻿namespace Relax.DesktopClient.Interfaces
 {
-    public interface ICharacterController
+    public interface ICharactersService
     {
         /// <summary>
         /// Текущий персонаж

@@ -2,8 +2,8 @@
 {
     public interface IDesktopContext
     {
-        IAuthController AuthController { get; }
+        IAuthService AuthService { get; }
 
-        ICharacterController CharacterController { get; }
+        ICharactersService CharactersService { get; }
     }
 }

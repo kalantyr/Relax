@@ -11,15 +11,15 @@ namespace Relax.DesktopClient
 
         private Context()
         {
-            CharacterController = new CharacterController(AuthController);
+            CharactersService = new CharactersService(AuthService);
         }
 
-        public AuthController AuthController { get; } = new(UserSettings.Instance);
+        public AuthService AuthService { get; } = new(UserSettings.Instance);
 
-        IAuthController IDesktopContext.AuthController => AuthController;
+        IAuthService IDesktopContext.AuthService => AuthService;
 
-        public CharacterController CharacterController { get; }
+        public CharactersService CharactersService { get; }
 
-        ICharacterController IDesktopContext.CharacterController => CharacterController;
+        ICharactersService IDesktopContext.CharactersService => CharactersService;
     }
 }

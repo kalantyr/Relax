@@ -9,21 +9,21 @@ using Relax.Server.Client;
 
 namespace Relax.DesktopClient.Controllers
 {
-    internal class CharacterController: ICharacterController
+    internal class CharactersService: ICharactersService
     {
-        private readonly AuthController _authController;
-        private readonly AuthController.HttpClientFactory _httpClientFactory = new(Settings.Default.CharactersService);
+        private readonly AuthService _authService;
+        private readonly AuthService.HttpClientFactory _httpClientFactory = new(Settings.Default.CharactersService);
         private Character _hero;
 
-        public CharacterController(AuthController authController)
+        public CharactersService(AuthService authService)
         {
-            _authController = authController ?? throw new ArgumentNullException(nameof(authController));
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
         }
 
         public async Task<IReadOnlyCollection<uint>> GetMyCharactersIdsAsync(CancellationToken cancellationToken)
         {
             ICharactersReadonlyClient client = new CharactersClient(_httpClientFactory);
-            var result = await client.GetMyCharactersIdsAsync(_authController.TokenInfo.Value, cancellationToken);
+            var result = await client.GetMyCharactersIdsAsync(_authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             return result.Result;
@@ -32,7 +32,7 @@ namespace Relax.DesktopClient.Controllers
         public async Task<CharacterInfo> GetCharacterInfoAsync(uint charId, CancellationToken cancellationToken)
         {
             ICharactersReadonlyClient client = new CharactersClient(_httpClientFactory);
-            var result = await client.GetCharacterInfoAsync(charId, _authController.TokenInfo.Value, cancellationToken);
+            var result = await client.GetCharacterInfoAsync(charId, _authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             return result.Result;
@@ -41,7 +41,7 @@ namespace Relax.DesktopClient.Controllers
         public async Task<uint> CreateAsync(CharacterInfo info, CancellationToken cancellationToken)
         {
             ICharactersClient client = new CharactersClient(_httpClientFactory);
-            var result = await client.CreateAsync(info, _authController.TokenInfo.Value, cancellationToken);
+            var result = await client.CreateAsync(info, _authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             return result.Result;
@@ -50,7 +50,7 @@ namespace Relax.DesktopClient.Controllers
         public async Task EnterAsync(CharacterInfo info, CancellationToken cancellationToken)
         {
             IServerClient client = new ServerClient();
-            var result = await client.ConnectAsync(info.Id, _authController.TokenInfo.Value, cancellationToken);
+            var result = await client.ConnectAsync(info.Id, _authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             Hero = new Character(info);
@@ -59,7 +59,7 @@ namespace Relax.DesktopClient.Controllers
         public async Task ExitAsync(CancellationToken cancellationToken)
         {
             IServerClient client = new ServerClient();
-            var result = await client.DisconnectAsync(_authController.TokenInfo.Value, cancellationToken);
+            var result = await client.DisconnectAsync(_authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             Hero = null;
@@ -79,7 +79,7 @@ namespace Relax.DesktopClient.Controllers
             }
         }
 
-        ICharacter ICharacterController.Hero => Hero;
+        ICharacter ICharactersService.Hero => Hero;
 
         public event Action<ICharacter, ICharacter> HeroChanged;
 

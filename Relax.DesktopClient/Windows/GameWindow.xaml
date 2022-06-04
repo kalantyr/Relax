@@ -5,6 +5,6 @@
         Background="Black"
         Title="Relax" Height="450" Width="800" ShowInTaskbar="False">
     <Grid>
-        <controls:LocationControl/>
+        <controls:LocationControl x:Name="_locationControl"/>
     </Grid>
 </Window>

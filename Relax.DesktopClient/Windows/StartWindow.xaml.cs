@@ -9,8 +9,8 @@ namespace Relax.DesktopClient.Windows
         {
             InitializeComponent();
 
-            Context.Instance.AuthController.UserLoggedIn += TuneControls;
-            Context.Instance.AuthController.UserLoggedOut += TuneControls;
+            Context.Instance.AuthService.UserLoggedIn += TuneControls;
+            Context.Instance.AuthService.UserLoggedOut += TuneControls;
 
             _characterSelector.Selected += characterInfo =>
             {
@@ -23,13 +23,13 @@ namespace Relax.DesktopClient.Windows
         private void TuneControls()
         {
             _charactersGroup.Visibility =
-                Context.Instance.AuthController.IsUserLogged ? Visibility.Visible : Visibility.Collapsed;
+                Context.Instance.AuthService.IsUserLogged ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            Context.Instance.AuthController.UserLoggedIn -= TuneControls;
-            Context.Instance.AuthController.UserLoggedOut -= TuneControls;
+            Context.Instance.AuthService.UserLoggedIn -= TuneControls;
+            Context.Instance.AuthService.UserLoggedOut -= TuneControls;
 
             base.OnClosed(e);
         }

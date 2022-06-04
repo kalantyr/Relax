@@ -1,6 +1,6 @@
 ﻿namespace Relax.DesktopClient.Interfaces
 {
-    public interface IAuthController
+    public interface IAuthService
     {
         event Action? UserLoggedIn;
 

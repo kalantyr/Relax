@@ -13,8 +13,8 @@ namespace Relax.DesktopClient.Controls
         {
             InitializeComponent();
 
-            Context.Instance.AuthController.UserLoggedIn += TuneControls;
-            Context.Instance.AuthController.UserLoggedOut += TuneControls;
+            Context.Instance.AuthService.UserLoggedIn += TuneControls;
+            Context.Instance.AuthService.UserLoggedOut += TuneControls;
 
             _cbLogin.ItemsSource = UserSettings.Instance.Logins.Select(lg => lg.Login).OrderBy(l => l);
             _cbLogin.SelectedItem = UserSettings.Instance.Logins.Select(lg => lg.Login).FirstOrDefault();
@@ -24,8 +24,8 @@ namespace Relax.DesktopClient.Controls
 
         private void TuneControls()
         {
-            _grdLogin.Visibility = Context.Instance.AuthController.IsUserLogged ? Visibility.Collapsed : Visibility.Visible;
-            _grdLogout.Visibility = Context.Instance.AuthController.IsUserLogged ? Visibility.Visible : Visibility.Collapsed;
+            _grdLogin.Visibility = Context.Instance.AuthService.IsUserLogged ? Visibility.Collapsed : Visibility.Visible;
+            _grdLogout.Visibility = Context.Instance.AuthService.IsUserLogged ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void OnLoginClick(object sender, RoutedEventArgs e)
@@ -35,7 +35,7 @@ namespace Relax.DesktopClient.Controls
             try
             {
                 Cursor = Cursors.Wait;
-                await Context.Instance.AuthController.LoginByPasswordAsync(_cbLogin.Text, _pbPassword.Password, _cbStorePwd.IsChecked == true, tokenSource.Token);
+                await Context.Instance.AuthService.LoginByPasswordAsync(_cbLogin.Text, _pbPassword.Password, _cbStorePwd.IsChecked == true, tokenSource.Token);
             }
             catch (Exception exception)
             {
@@ -54,7 +54,7 @@ namespace Relax.DesktopClient.Controls
             try
             {
                 Cursor = Cursors.Wait;
-                await Context.Instance.AuthController.LogoutAsync(tokenSource.Token);
+                await Context.Instance.AuthService.LogoutAsync(tokenSource.Token);
             }
             catch (Exception exception)
             {
