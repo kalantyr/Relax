@@ -49,5 +49,14 @@ namespace Relax.DesktopClient {
                 return ((global::System.TimeSpan)(this["AsyncTimeout"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5290")]
+        public string HttpServer {
+            get {
+                return ((string)(this["HttpServer"]));
+            }
+        }
     }
 }

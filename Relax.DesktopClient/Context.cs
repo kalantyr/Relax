@@ -1,5 +1,5 @@
-﻿using Relax.DesktopClient.Controllers;
-using Relax.DesktopClient.Interfaces;
+﻿using Relax.DesktopClient.Interfaces;
+using Relax.DesktopClient.Services;
 
 namespace Relax.DesktopClient
 {

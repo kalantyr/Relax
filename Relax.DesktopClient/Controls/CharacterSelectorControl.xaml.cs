@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Relax.Characters.Models;
-using Relax.DesktopClient.Controllers;
+using Relax.DesktopClient.Services;
 using Relax.DesktopClient.Windows;
 
 namespace Relax.DesktopClient.Controls

@@ -2,6 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-            
+        <Canvas x:Name="_canvas">
+            <Canvas.RenderTransform>
+                <ScaleTransform ScaleX="10" ScaleY="10"/>
+            </Canvas.RenderTransform>
+        </Canvas>
     </Grid>
 </UserControl>

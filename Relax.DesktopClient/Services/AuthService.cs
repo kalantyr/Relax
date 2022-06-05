@@ -7,7 +7,7 @@ using Kalantyr.Auth.Models;
 using Relax.DesktopClient.Interfaces;
 using Relax.Utils;
 
-namespace Relax.DesktopClient.Controllers
+namespace Relax.DesktopClient.Services
 {
     internal class AuthService: IAuthService
     {

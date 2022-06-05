@@ -9,3 +9,4 @@
 /.vs
 /Relax.DesktopClient/bin
 /Relax.DesktopClient/obj
+/Relax.DesktopClient/*.user
