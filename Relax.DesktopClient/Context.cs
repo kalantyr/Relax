@@ -1,4 +1,5 @@
 ﻿using Relax.DesktopClient.Interfaces;
+using Relax.DesktopClient.Repository.Impl;
 using Relax.DesktopClient.Services;
 
 namespace Relax.DesktopClient
@@ -11,7 +12,8 @@ namespace Relax.DesktopClient
 
         private Context()
         {
-            CharactersService = new CharactersService(AuthService);
+            CharactersRepositiry = new CharactersRepositiry(AuthService);
+            CharactersService = new CharactersService(AuthService, CharactersRepositiry);
         }
 
         public AuthService AuthService { get; } = new(UserSettings.Instance);
@@ -21,5 +23,7 @@ namespace Relax.DesktopClient
         public CharactersService CharactersService { get; }
 
         ICharactersService IDesktopContext.CharactersService => CharactersService;
+
+        public CharactersRepositiry CharactersRepositiry { get; }
     }
 }

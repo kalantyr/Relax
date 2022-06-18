@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +23,7 @@ namespace Relax.DesktopClient.Windows
         {
             _heroInfo = heroInfo ?? throw new ArgumentNullException(nameof(heroInfo));
             Loaded += GameWindow_Loaded;
+            Unloaded += GameWindow_Unloaded;
         }
 
         private async void GameWindow_Loaded(object sender, RoutedEventArgs e)
@@ -47,17 +47,12 @@ namespace Relax.DesktopClient.Windows
             }
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        private async void GameWindow_Unloaded(object sender, RoutedEventArgs e)
         {
-            _locationControl.Visibility = Visibility.Collapsed;
-            _locationControl.CharactersService = null;
-
             var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
-            _context.CharactersService.ExitAsync(tokenSource.Token).Wait(tokenSource.Token);
-
-            base.OnClosing(e);
+            await _context.CharactersService.ExitAsync(tokenSource.Token);
         }
-        
+
         internal void ShowToolWindow(UserControl content, int width, int height, string title)
         {
             var window = new Window

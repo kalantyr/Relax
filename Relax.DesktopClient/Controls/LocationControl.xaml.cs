@@ -1,7 +1,8 @@
-﻿using Relax.DesktopClient.Controls.MapObjects;
+﻿using Kalavarda.Primitives.WPF;
+using Relax.DesktopClient.Controls.MapObjects;
 using Relax.DesktopClient.Interfaces;
 
-namespace Relax.Controls
+namespace Relax.DesktopClient.Controls
 {
     public partial class LocationControl
     {
@@ -17,7 +18,11 @@ namespace Relax.Controls
                     return;
 
                 if (_charactersService != null)
+                {
                     _charactersService.HeroChanged -= OnHeroChanged;
+
+                    _charactersService.CharacterOnline -= OnCharacterOnline;
+                }
 
                 _charactersService = value;
 
@@ -25,8 +30,19 @@ namespace Relax.Controls
                 {
                     _charactersService.HeroChanged += OnHeroChanged;
                     OnHeroChanged(null, _charactersService.Hero);
+
+                    _charactersService.CharacterOnline += OnCharacterOnline;
                 }
             }
+        }
+
+        private void OnCharacterOnline(ICharacter characterInfo)
+        {
+            this.Do(() =>
+            {
+                var characterControl = new CharacterControl { Character = characterInfo };
+                _canvas.Children.Add(characterControl);
+            });
         }
 
         private void OnHeroChanged(ICharacter oldChar, ICharacter newChar)

@@ -43,7 +43,7 @@ namespace Relax.DesktopClient {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00:00:10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:05")]
         public global::System.TimeSpan AsyncTimeout {
             get {
                 return ((global::System.TimeSpan)(this["AsyncTimeout"]));

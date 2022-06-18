@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Relax.Characters.Client;
 using Relax.Characters.Models;
 using Relax.DesktopClient.Interfaces;
+using Relax.DesktopClient.Repository;
 using Relax.Server.Client;
 
 namespace Relax.DesktopClient.Services
@@ -12,13 +13,19 @@ namespace Relax.DesktopClient.Services
     internal class CharactersService: ICharactersService
     {
         private readonly AuthService _authService;
+        private readonly ICharactersRepositiry _charactersRepositiry;
         private readonly AuthService.HttpClientFactory _charactersHttpClientFactory = new(Settings.Default.CharactersService);
         private readonly AuthService.HttpClientFactory _serverHttpClientFactory = new(Settings.Default.HttpServer);
         private Character _hero;
+        private Timer _timer;
+        private readonly ICollection<uint> _onlineCharacters = new List<uint>();
+        private readonly IServerClient _serverClient;
 
-        public CharactersService(AuthService authService)
+        public CharactersService(AuthService authService, ICharactersRepositiry charactersRepositiry)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _charactersRepositiry = charactersRepositiry ?? throw new ArgumentNullException(nameof(charactersRepositiry));
+            _serverClient = new ServerClient(_serverHttpClientFactory);
         }
 
         public async Task<IReadOnlyCollection<uint>> GetMyCharactersIdsAsync(CancellationToken cancellationToken)
@@ -32,11 +39,8 @@ namespace Relax.DesktopClient.Services
 
         public async Task<CharacterInfo> GetCharacterInfoAsync(uint charId, CancellationToken cancellationToken)
         {
-            ICharactersReadonlyClient client = new CharactersClient(_charactersHttpClientFactory);
-            var result = await client.GetCharacterInfoAsync(charId, _authService.TokenInfo.Value, cancellationToken);
-            if (result.Error != null)
-                throw new Exception(result.Error.Message);
-            return result.Result;
+            var character = await _charactersRepositiry.ResolveByIdAsync(charId, cancellationToken);
+            return character.Info;
         }
 
         public async Task<uint> CreateAsync(CharacterInfo info, CancellationToken cancellationToken)
@@ -50,17 +54,54 @@ namespace Relax.DesktopClient.Services
 
         public async Task EnterAsync(CharacterInfo info, CancellationToken cancellationToken)
         {
-            IServerClient client = new ServerClient(_serverHttpClientFactory);
-            var result = await client.ConnectAsync(info.Id, _authService.TokenInfo.Value, cancellationToken);
+            var getIdsOnline = await _serverClient.GetOnlineCharacterIdsAsync(_authService.TokenInfo.Value, cancellationToken);
+            if (getIdsOnline.Error != null)
+                throw new Exception(getIdsOnline.Error.Message);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await _serverClient.ConnectAsync(info.Id, _authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
+
+            _timer = new Timer(OnTimer, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+
             Hero = new Character(info);
+        }
+
+        private void OnTimer(object objectState)
+        {
+            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+            var task = _serverClient.GetOnlineCharacterIdsAsync(_authService.TokenInfo.Value, tokenSource.Token);
+
+            task.Wait(tokenSource.Token);
+            var getIdsOnline = task.Result;
+
+            if (getIdsOnline.Error != null)
+                throw new Exception(getIdsOnline.Error.Message);
+
+            foreach (var id in getIdsOnline.Result)
+                if (id != Hero.Info.Id)
+                    if (!_onlineCharacters.Contains(id))
+                    {
+                        _onlineCharacters.Add(id);
+                        if (CharacterOnline != null)
+                        {
+                            var tokenSource2 = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+                            var resolveTask = _charactersRepositiry.ResolveByIdAsync(id, tokenSource2.Token);
+                            resolveTask.Wait(tokenSource2.Token);
+                            CharacterOnline.Invoke(resolveTask.Result);
+                        }
+                    }
         }
 
         public async Task ExitAsync(CancellationToken cancellationToken)
         {
-            IServerClient client = new ServerClient(_serverHttpClientFactory);
-            var result = await client.DisconnectAsync(_authService.TokenInfo.Value, cancellationToken);
+            await _timer.DisposeAsync();
+            _timer = null;
+            _onlineCharacters.Clear();
+
+            var result = await _serverClient.DisconnectAsync(_authService.TokenInfo.Value, cancellationToken);
             if (result.Error != null)
                 throw new Exception(result.Error.Message);
             Hero = null;
@@ -84,8 +125,8 @@ namespace Relax.DesktopClient.Services
 
         public event Action<ICharacter, ICharacter> HeroChanged;
 
-        public event Action<uint> CharacterOnline;
+        public event Action<ICharacter> CharacterOnline;
 
-        public event Action<uint> CharacterOffline;
+        public event Action<ICharacter> CharacterOffline;
     }
 }

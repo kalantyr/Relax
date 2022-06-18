@@ -3,23 +3,23 @@ using Relax.DesktopClient.Interfaces;
 
 namespace Relax.DesktopClient.Controls.MapObjects
 {
-    public partial class HeroControl
+    public partial class CharacterControl
     {
-        private ICharacter _hero;
+        private ICharacter _character;
 
-        public ICharacter Hero
+        public ICharacter Character
         {
-            get => _hero;
+            get => _character;
             set
             {
-                if (_hero == value)
+                if (_character == value)
                     return;
 
-                _hero = value;
+                _character = value;
 
-                if (_hero != null)
+                if (_character != null)
                 {
-                    if (_hero.Info.Name.StartsWith("А"))
+                    if (_character.Info.Name.StartsWith("А"))
                         _grd.Background = Brushes.DarkMagenta;
                     else
                         _grd.Background = Brushes.Chartreuse;
@@ -27,7 +27,7 @@ namespace Relax.DesktopClient.Controls.MapObjects
             }
         }
 
-        public HeroControl()
+        public CharacterControl()
         {
             InitializeComponent();
         }
