@@ -5,5 +5,7 @@
         IAuthService AuthService { get; }
 
         ICharactersService CharactersService { get; }
+
+        ICommandReceiver CommandReceiver { get; }
     }
 }

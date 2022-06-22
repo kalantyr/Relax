@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Relax.Characters.Models;
+using Relax.DesktopClient.Controllers;
 
 namespace Relax.DesktopClient.Windows
 {
@@ -12,11 +13,13 @@ namespace Relax.DesktopClient.Windows
     {
         private readonly CharacterInfo _heroInfo;
         private readonly Context _context;
+        private readonly InputController _inputController;
 
         public GameWindow()
         {
             InitializeComponent();
             _context = Context.Instance;
+            _inputController = new InputController(this, _context.CharactersService, _context.CommandsService);
         }
 
         public GameWindow(CharacterInfo heroInfo): this()
@@ -51,6 +54,8 @@ namespace Relax.DesktopClient.Windows
         {
             var tokenSource = new CancellationTokenSource(Settings.Default.AsyncTimeout);
             await _context.CharactersService.ExitAsync(tokenSource.Token);
+
+            _inputController.Dispose();
         }
 
         internal void ShowToolWindow(UserControl content, int width, int height, string title)

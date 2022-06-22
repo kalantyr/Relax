@@ -9,7 +9,7 @@ namespace Relax.DesktopClient.Repository
         Task<ICharacter> ResolveByIdAsync(uint characterId, CancellationToken cancellationToken);
     }
 
-    internal interface ICharactersRepositiry: ICharactersRepositiryReadonly
+    internal interface ICharactersRepository: ICharactersRepositiryReadonly
     {
     }
 }

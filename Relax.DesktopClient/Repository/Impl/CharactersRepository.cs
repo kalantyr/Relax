@@ -9,13 +9,13 @@ using Relax.DesktopClient.Services;
 
 namespace Relax.DesktopClient.Repository.Impl
 {
-    internal class CharactersRepositiry: ICharactersRepositiry
+    internal class CharactersRepository: ICharactersRepository
     {
         private readonly AuthService _authService;
         private readonly List<ICharacter> _characters = new();
         private readonly AuthService.HttpClientFactory _charactersHttpClientFactory = new(Settings.Default.CharactersService);
 
-        public CharactersRepositiry(AuthService authService)
+        public CharactersRepository(AuthService authService)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
         }

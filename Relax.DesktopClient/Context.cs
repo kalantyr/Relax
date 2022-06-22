@@ -1,4 +1,6 @@
-﻿using Relax.DesktopClient.Interfaces;
+﻿using System.Threading;
+using Kalavarda.Primitives.Process;
+using Relax.DesktopClient.Interfaces;
 using Relax.DesktopClient.Repository.Impl;
 using Relax.DesktopClient.Services;
 
@@ -7,13 +9,16 @@ namespace Relax.DesktopClient
     internal class Context: IDesktopContext
     {
         private static readonly Context _instance = new();
+        private readonly CancellationTokenSource _processorTokenSource = new();
 
         internal static Context Instance => _instance;
 
         private Context()
         {
-            CharactersRepositiry = new CharactersRepositiry(AuthService);
-            CharactersService = new CharactersService(AuthService, CharactersRepositiry);
+            CharactersRepository = new CharactersRepository(AuthService);
+            CharactersService = new CharactersService(AuthService, CharactersRepository);
+            Processor = new MultiProcessor(60, _processorTokenSource.Token);
+            CommandsService = new CommandsService(Processor, CharactersRepository);
         }
 
         public AuthService AuthService { get; } = new(UserSettings.Instance);
@@ -24,6 +29,12 @@ namespace Relax.DesktopClient
 
         ICharactersService IDesktopContext.CharactersService => CharactersService;
 
-        public CharactersRepositiry CharactersRepositiry { get; }
+        public CharactersRepository CharactersRepository { get; }
+
+        public CommandsService CommandsService { get; }
+
+        ICommandReceiver IDesktopContext.CommandReceiver => CommandsService;
+
+        public IProcessor Processor { get; }
     }
 }
