@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Relax.Characters.Client;
@@ -15,7 +18,6 @@ namespace Relax.DesktopClient.Services
         private readonly AuthService _authService;
         private readonly ICharactersRepository _charactersRepository;
         private readonly AuthService.HttpClientFactory _charactersHttpClientFactory = new(Settings.Default.CharactersService);
-        private readonly AuthService.HttpClientFactory _serverHttpClientFactory = new(Settings.Default.HttpServer);
         private Character _hero;
         private Timer _timer;
         private readonly ICollection<uint> _onlineCharacters = new List<uint>();
@@ -25,7 +27,10 @@ namespace Relax.DesktopClient.Services
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _charactersRepository = charactersRepository ?? throw new ArgumentNullException(nameof(charactersRepository));
-            _serverClient = new ServerClient(_serverHttpClientFactory);
+
+            var hostEntry = Dns.GetHostEntry(Settings.Default.UdpServer, AddressFamily.InterNetwork);
+            var serverEndPoint = new IPEndPoint(hostEntry.AddressList.First(), Settings.Default.UdpPort);
+            _serverClient = new ServerClient(serverEndPoint);
         }
 
         public async Task<IReadOnlyCollection<uint>> GetMyCharactersIdsAsync(CancellationToken cancellationToken)

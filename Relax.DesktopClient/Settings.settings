@@ -11,8 +11,11 @@
     <Setting Name="AsyncTimeout" Type="System.TimeSpan" Scope="Application">
       <Value Profile="(Default)">00:00:05</Value>
     </Setting>
-    <Setting Name="HttpServer" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost:5290</Value>
+    <Setting Name="UdpServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="UdpPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">12345</Value>
     </Setting>
   </Settings>
 </SettingsFile>

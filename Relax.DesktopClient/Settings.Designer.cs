@@ -52,10 +52,19 @@ namespace Relax.DesktopClient {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5290")]
-        public string HttpServer {
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string UdpServer {
             get {
-                return ((string)(this["HttpServer"]));
+                return ((string)(this["UdpServer"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12345")]
+        public int UdpPort {
+            get {
+                return ((int)(this["UdpPort"]));
             }
         }
     }
