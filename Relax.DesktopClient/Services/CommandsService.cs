@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using Kalavarda.Primitives.Process;
 using Relax.DesktopClient.Interfaces;
 using Relax.DesktopClient.Processes;
 using Relax.DesktopClient.Repository;
 using Relax.Models.Commands;
+using Relax.Server.Client;
 
 namespace Relax.DesktopClient.Services
 {
@@ -15,15 +14,13 @@ namespace Relax.DesktopClient.Services
     {
         private readonly IProcessor _processor;
         private readonly ICharactersRepository _charactersRepository;
-        private readonly IPEndPoint _serverEndPoint;
+        private readonly IServerClient _serverClient;
 
-        public CommandsService(IProcessor processor, ICharactersRepository charactersRepository)
+        public CommandsService(IProcessor processor, ICharactersRepository charactersRepository, IServerClient serverClient)
         {
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
             _charactersRepository = charactersRepository ?? throw new ArgumentNullException(nameof(charactersRepository));
-
-            var hostEntry = Dns.GetHostEntry(Settings.Default.UdpServer, AddressFamily.InterNetwork);
-            _serverEndPoint = new(hostEntry.AddressList.First(), Settings.Default.UdpPort);
+            _serverClient = serverClient;
         }
 
         public void Send(CommandBase command)
@@ -32,23 +29,9 @@ namespace Relax.DesktopClient.Services
 
             Process(command);
             
-            SendToServer(command);
+            _serverClient.SendAsync(command, CancellationToken.None).Wait();
 
             CommandReceived?.Invoke(command);
-        }
-
-        private void SendToServer(CommandBase command)
-        {
-            using var udpClient = new UdpClient();
-            try
-            {
-                udpClient.Connect(_serverEndPoint); // TODO: нужно ли?
-                udpClient.Send(command.Serialize());
-            }
-            finally
-            {
-                udpClient.Close();
-            }
         }
 
         private void Process(CommandBase command)

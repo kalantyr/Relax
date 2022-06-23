@@ -62,9 +62,18 @@ namespace Relax.DesktopClient {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("12345")]
-        public int UdpPort {
+        public int UdpServerPort {
             get {
-                return ((int)(this["UdpPort"]));
+                return ((int)(this["UdpServerPort"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("54321")]
+        public int UdpLocalPort {
+            get {
+                return ((int)(this["UdpLocalPort"]));
             }
         }
     }

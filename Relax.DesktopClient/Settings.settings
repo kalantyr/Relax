@@ -14,8 +14,11 @@
     <Setting Name="UdpServer" Type="System.String" Scope="Application">
       <Value Profile="(Default)">localhost</Value>
     </Setting>
-    <Setting Name="UdpPort" Type="System.Int32" Scope="Application">
+    <Setting Name="UdpServerPort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">12345</Value>
+    </Setting>
+    <Setting Name="UdpLocalPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">54321</Value>
     </Setting>
   </Settings>
 </SettingsFile>
